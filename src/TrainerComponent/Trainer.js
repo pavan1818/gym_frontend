@@ -18,12 +18,7 @@ import CreateWorkoutplanComponent from './AddWorkoutplan';
 
     const logout = () => {
         
-        localStorage.removeItem('train_name')
-        localStorage.removeItem('train_email')
-        localStorage.removeItem('train_contact')
-        localStorage.removeItem('train_address')
-        localStorage.removeItem('train_password')
-        localStorage.removeItem('train_role')
+        localStorage.clear();
         history.push('/login')
         
     }

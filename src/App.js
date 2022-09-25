@@ -13,7 +13,20 @@ import CreateUserComponent from './HomePages/SignUp'
 import Admin from './AdminComponent/Admin';
 import Trainer from './TrainerComponent/Trainer';
 import Member from './MemberComponent/Member';
+import axios from 'axios'
 
+
+axios.interceptors.request.use(req => {
+    // `req` is the Axios request config, so you can modify
+    // the `headers`.
+    var token = localStorage.auth_token;
+    
+    if (token) {
+        req.headers.Authorization = token;
+    }
+
+    return req;
+  });
 
 
 

@@ -15,6 +15,7 @@ class CreateCenterComponent extends Component {
             description :'',
             locality :'',
              owner_id :'',
+             type: ''
             // created_at :'',
             // updated_at :''
            
@@ -45,7 +46,7 @@ class CreateCenterComponent extends Component {
                     address: this.state.address,
                     description: this.state.description,    //subplanId
                     locality: this.state.locality,          //subplanId
-                    owner_id: this.state.owner_id,          //subplanId
+                    type: this.state.type,          //subplanId
                     // created_at: this.state.created_at,      //subplanId
                     // updated_at: this.state.updated_at,              //subplanId
 
@@ -62,9 +63,8 @@ console.log(center)
             alert('Please enter the description for the center')
         } else if(this.state.locality.length===0) {
             alert('Please enter the locality of the center')
-        } 
-        else if(this.state.owner_id.length===0) {
-            alert('Please enter the owner_id of the center')
+        } else if(this.state.type.length=== 0) {
+            alert('Please enter the type of the center')
         } 
         // else if(this.state.created_at.length===0) {
         //     alert('Please enter the date')
@@ -119,6 +119,11 @@ console.log(center)
         this.setState({owner_id: event.target.value});
     }
 
+    changeTypeHandler = (event) => {
+        debugger
+        this.setState({type: event.target.value});
+    }
+
     // changeCreated_atHandler = (event) => {
     //     this.setState({created_at: event.target.value});
     // }
@@ -165,10 +170,17 @@ console.log(center)
                                         <input placeholder="Locality" type="text" name="locality" className="form-control"
                                             value={this.state.locality} onChange={this.changeLocalityHandler} />
                                     </div>
-                                    <div className="form-group">
-                                        <label> Center ownerID: </label>
-                                        <input placeholder="owner" type="text" name="owner" className="form-control"
-                                            value={this.state.owner_id} onChange={this.changeOwnerIdHandler} />
+                                    <div className='form-group'>
+                                        <label>
+                                        Fitness_Centers : </label>
+                                        <select className="form-control" onChange={this.changeTypeHandler}>
+                                            <option value={this.state.type} disabled="disabled" defaultValue={this.state.type} >select a type</option>
+                                            <option value="Gyms">Gyms</option>
+                                            <option value="Yoga">Yoga</option>
+                                            <option value="Zumba">Zumba</option>
+                                            <option value="Swmming">Swmming</option>
+                                            <option value="Dance">Dance</option>
+                                        </select>
                                     </div>
                                     {/* <div className="form-group">
                                         <label> Date: </label>

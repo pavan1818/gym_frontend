@@ -54,7 +54,7 @@ class CenterplanComponent extends React.Component {
                             <th>ADDRESS</th>
                             <th>DESCRIPTION</th>
                             <th>LOCALITY</th>
-                            <th>OWNER-ID</th>
+                            <th>Type</th>
                             {/* <th>CREATED-AT</th>
                             <th>UPDATED-AT</th> */}
                             
@@ -73,7 +73,7 @@ class CenterplanComponent extends React.Component {
                                     <td>{center.address}</td>
                                     <td>{center.description}</td>
                                     <td>{center.locality}</td>
-                                    <td>{center.owner_id}</td>
+                                    <td>{center.type}</td>
                                     {/* <td>{center.created_at}</td>
                                     <td>{center.updated_at}</td> */}
                                     <td>

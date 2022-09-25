@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const EMP_ALL_URL = 'http://localhost:8080/users'
-const EMP_PUT_URL = 'http://localhost:8080/users/save'
+const EMP_PUT_URL = 'http://localhost:8080/users'
 const ADMINTRAINER_PUT_URL = 'http://localhost:8080/users/saveAdTrain'
 
 

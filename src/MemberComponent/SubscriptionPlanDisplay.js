@@ -9,65 +9,125 @@ class SubscriptionplanComponents extends React.Component {
         super(props)
         this.state = {
             localities:[],
-            center: []
+            center: [],
+            originalCenters: [],
+            locality: '',
+            type: ''
         }
      
     }
 
-   
-
-//     // componentDidMount(){
-
-//     //     AdminServices.getCenters().then((response) => {
-//     //         this.setState({center:response.data})
-//     //     })
-       
-//     // }
-
     componentDidMount(){
 
         AdminServices.getCenters().then((response) => {
-            debugger    
             this.setState({center:response.data});
         })
 
         AdminServices.getLocalities().then((response) => {
             this.setState({localities:response.data});
-
-
         })
        
     }
 
+    filterCenters = () => {
+        var centers = [];
+        var filteredRecords = [];
+        var selectedRecords = []
+        if (this.state.originalCenters.length === 0) {
+            this.setState({originalCenters: this.state.center })
+        } 
+
+        if (this.state.originalCenters.length > 0) {
+            centers = this.state.originalCenters;
+        } else {
+            centers = this.state.center;
+        }
+        
+        if (this.state.locality != '') {
+            centers.forEach(center => {
+                if(center.locality.toLowerCase() === this.state.locality.toLowerCase()) {
+                    filteredRecords.push(center)
+                    selectedRecords.push(center.id)
+                }
+            });
+        }
+        
+        if (filteredRecords.length > 0 ) {
+            centers = filteredRecords;
+        }
+        
+        if (this.state.type != '') {
+            debugger
+            filteredRecords = []
+            for (var center in centers) {
+                if(centers[center].type && centers[center].type.toLowerCase() === this.state.type.toLocaleLowerCase()) {
+                    selectedRecords.push(centers[center].id)
+                    filteredRecords.push(centers[center])
+                } 
+            }
+        }
+
+
+        this.setState({center: filteredRecords})
+        
+
+    }
+
+    changeLocalityHandler = (event) => {
+        this.setState({locality: event.target.value});
+       
+    }
+
+    changeTypeHandler = (event) => {
+        this.setState({type: event.target.value});
+    }
+
+    applyFilter = (e) => {
+        this.filterCenters();
+    }
+
+    clearFilter = (e) => {
+        this.setState({type: ''})
+        this.setState({locality: ''})
+
+        AdminServices.getCenters().then((response) => {
+            this.setState({center:response.data});
+        })
+    }
+
+    
+
     render(){
         return(
             <div>
+                <div className='form-group'>
+                    <label>
+                    Location : 
+                    <select value={this.state.locality} onChange={this.changeLocalityHandler}>
+                        <option value='' defaultValue>Select Your Locality</option>
+                        {
+                            this.state.localities.map((i,j)=>{
+                                return <option key={i} value={i}>{i}</option>
+                            })
+                        }
+                    </select>
+                    </label>
 
-                <label>
-                Location : 
-                 <select id="dropdown"> 
-                    {this.state.localities.map((locality) => (
-                     <option key={locality} value={locality}>
-                    {locality}
-                    </option>
-                    ))}
-                </select>
-                </label>
-                
-            <br></br>
-            <br></br>
+                    <label>
+                    Speciality : 
+                        <select value={this.state.type} onChange={this.changeTypeHandler}>
+                            <option value=''  defaultValue>select a type</option>
+                            <option key="Gyms" value="Gyms">Gyms</option>
+                            <option key="Yoga" value="Yoga">Yoga</option>
+                            <option key="Zumba" value="Zumba">Zumba</option>
+                            <option key="Swmming" value="Swmming">Swmming</option>
+                            <option key="Dance" value="Dance">Dance</option>
+                        </select>
+                    </label>
+                    <button onClick={this.applyFilter}> filter</button>
+                    <button onClick={this.clearFilter}> clear</button>
 
-            <label>
-            Fitness_Centers : 
-                <select>
-                <option value="" disabled="disabled" selected="selected">select a type</option>
-                    <option value="Gyms">Gyms</option>
-                    <option value="Yoga">Yoga</option>
-                    <option value="Zumba">Zumba</option>
-                    <option value="Swmming">Swmming</option>
-                    <option value="Dance">Dance</option>
-                </select>
-            </label>
+                </div>
 
                 <h1 style={{textAlign:'center', color:'green'}}>Center's List</h1>
                 <table className = "table  table-striped" style={{border:'2px solid black'}}>                    
@@ -79,7 +139,7 @@ class SubscriptionplanComponents extends React.Component {
                             <th>ADDRESS</th>
                             <th>DESCRIPTION</th>
                             <th>LOCALITY</th>
-                            {/* <th>OWNER-ID</th>*/}
+                            <th>Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +153,7 @@ class SubscriptionplanComponents extends React.Component {
                                     <td>{center.address}</td>
                                     <td>{center.description}</td>
                                     <td>{center.locality}</td>
-                                    {/* <td>{center.owner_id}</td> */}                                    
+                                    <td>{center.type}</td>                                    
                                 </tr>
                             )
                         }

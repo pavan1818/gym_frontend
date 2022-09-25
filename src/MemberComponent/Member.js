@@ -24,12 +24,7 @@ import searchcomponents from './search';
 
     const logout = () => {
         
-        localStorage.removeItem('member_name')
-        localStorage.removeItem('member_email')
-        localStorage.removeItem('member_contact')
-        localStorage.removeItem('member_address')
-        localStorage.removeItem('member_password')
-        localStorage.removeItem('member_role')
+        localStorage.clear();
         history.push('/login')
         
     }

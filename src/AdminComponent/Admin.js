@@ -18,13 +18,7 @@ import UserComponents from './UserList'
     const history = useHistory();
 
     const logout = () => {
-        
-        localStorage.removeItem('admin_name')
-        localStorage.removeItem('admin_email')
-        localStorage.removeItem('admin_contact')
-        localStorage.removeItem('admin_address')
-        localStorage.removeItem('admin_password')
-        localStorage.removeItem('admin_role')
+        localStorage.clear();
         history.push('/login')
         
     }

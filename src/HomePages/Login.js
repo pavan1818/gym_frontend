@@ -3,10 +3,23 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link, useHistory} from 'react-router-dom'
 const Login =()=>{
+
+  
     const [Email ,setEmail]=useState('')
     const [Password ,setPassword]=useState('')
 
     const history = useHistory();
+
+
+    if(localStorage.authenticate) {
+      if (localStorage.role == 'owner') {
+        history.push("/admin")
+      } else if(localStorage.role == 'user') {
+        history.push("/member")
+      } else {
+        history.push("/trainer")
+      }
+    }
 
   useEffect(( ) => {
     if(sessionStorage.getItem('user-info')) {
@@ -29,8 +42,8 @@ const Login =()=>{
             const result = response.data
             console.info('result_data', result);
             if (result.status === 'success') {
-              alert('successfully Logged in')
-             
+              // alert('successfully Logged in')
+              localStorage.setItem('authenticate', true)
               if(result.data.role==="user"){
                 localStorage.setItem('member_userid',result.data.user_id)
                 localStorage.setItem('member_name',result.data.name)
@@ -57,7 +70,8 @@ const Login =()=>{
                 localStorage.setItem('admin_role',result.data.role)
                 history.push('/admin')
               }
-              
+              localStorage.setItem('role', result.data.role);
+              localStorage.setItem('auth_token', result.data.authToken);
             } else {
               alert('error while logging in')
             }
